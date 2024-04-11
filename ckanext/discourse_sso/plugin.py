@@ -36,9 +36,9 @@ class DiscourseSSOPlugin(p.SingletonPlugin):
         return [bp]
 
 def sso_view():
-    if not g.user:
-        redirect_to(controller='user',
-                    action='login', came_from=request.url)
+    if not g.userobj:
+        return redirect_to(controller='user',
+                           action='login', came_from=request.url)
 
     if not signature_is_valid(request):
         raise Exception('Incorrect Discourse SSO Signature to CKAN')
