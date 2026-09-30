@@ -25,15 +25,22 @@ if discourse_url is None:
     raise Exception("Config 'discourse.url' or environment variable "
                     "CKAN_DISCOURSE_URL must be set")
 
+def get_discourse_url():
+    return discourse_url
+
 
 bp = Blueprint('discourse', __name__, url_prefix='/discourse')
 
 class DiscourseSSOPlugin(p.SingletonPlugin):
 
     p.implements(p.IBlueprint, inherit=True)
-    
+    p.implements(p.ITemplateHelpers)
+
     def get_blueprint(self):
         return [bp]
+
+    def get_helpers(self):
+        return {'get_discourse_url': get_discourse_url}
 
 def sso_view():
     if not g.userobj:
