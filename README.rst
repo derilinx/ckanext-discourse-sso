@@ -16,7 +16,7 @@ your discourse instance doesn't become a way to spam your CKAN users.
 Requirements
 ------------
 
-Tested with CKAN 2.7.2 and Discourse v2.0.0.beta4 +97
+Compatible with CKAN 2.11. Originally tested with Discourse v2.0.0.beta4 +97
 
 ------------
 Installation
