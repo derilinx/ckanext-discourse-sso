@@ -22,8 +22,21 @@ bp = Blueprint('discourse', __name__, url_prefix='/discourse')
 class DiscourseSSOPlugin(p.SingletonPlugin):
 
     p.implements(p.IConfigurer, inherit=True)
+    p.implements(p.IConfigDeclaration)
     p.implements(p.IBlueprint, inherit=True)
     p.implements(p.ITemplateHelpers)
+
+    def declare_config_options(self, declaration, key):
+        # Not marked as required, as they can be set via environment
+        # variables instead. update_config() checks they are present.
+        declaration.annotate("ckanext-discourse-sso")
+        declaration.declare(key.discourse.sso.secret).set_description(
+            "Shared secret, same as the sso_secret setting in Discourse. "
+            "Can be set via the CKAN_DISCOURSE_SSO_SECRET env var.")
+        declaration.declare(key.discourse.url).set_description(
+            "URL of the Discourse instance. "
+            "Can be set via the CKAN_DISCOURSE_URL env var.").set_example(
+            "https://discourse.example.com/")
 
     def update_config(self, config_):
         # Environment variable takes priority
